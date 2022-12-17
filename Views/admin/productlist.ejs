@@ -1,0 +1,46 @@
+<%- include('partials/adminHeader.ejs') -%>
+
+
+      
+    <div class="table-responsive">
+
+      <table class="table" style="width: 400px !important;">
+        <thead>
+          <tr>
+            <th scope="col">PRODUCT IMAGE</th>
+            <th scope="col">NAME</th>
+            <th scope="col">BRAND</th>
+            <th scope="col">STOCK</th>
+            <th scope="col">CATEGORY</th>
+            <th scope="col">PRICE</th>
+            <th scope="col">DISCOUNT</th>
+            <th scope="col">UPDATE</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0;i<productdetails.length;i++) {%>
+          <tr>
+            <td class="py-1">
+              <% productdetails[i].image.forEach(function(element){ %>
+                <img src="\admin\uploads\<%- element.filename %>" alt="image"/>
+              <% }) %>
+                
+              </td>
+            <td><%- productdetails[i].title %></td>
+            <td><%- productdetails[i].brand %></td>
+            <td><%- productdetails[i].stock %></td>
+            <td><%- productdetails[i].category %></td>
+            <td><%- productdetails[i].price %></td> 
+            <td><%- productdetails[i].discount %></td> 
+            <td><a href="/admin/editproduct/<%- productdetails[i]._id %>"> <button type="button" class="btn btn-success">Edit</button> </a>
+            <a href="/admin/deleteproduct/<%- productdetails[i]._id %>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+          </tr>
+          
+        <%}%>
+        </tbody>
+      </table>
+    </div>
+      
+
+<%- include('partials/adminFooter.ejs') -%>

@@ -1,0 +1,78 @@
+<%- include('partials/adminHeader.ejs') -%>
+
+<div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">USER DETAIS</h4>
+        <p class="card-description">
+          <!-- Add class <code>.table-hover</code> -->
+        </p>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Phone number</th>
+                <!-- <th>Sale</th> -->               
+                <th>email</th>
+                <th>Status</th>
+                <!-- <th>name</th> -->
+                
+              </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0;i<userdetails.length;i++) {%>
+              <tr>
+                <td><%- userdetails[i].fullname %></td>
+                <td><%- userdetails[i].mobilenumber %></td>
+                <td class="text-danger"> <%- userdetails[i].email %> <i></i></td>
+
+           <% if(userdetails[i].access === true) { %>   <td> <a href="/admin/block/<%-userdetails[i]._id -%>"> <button type="button" class="btn btn-danger btn-rounded btn-fw"><span> block </span></button></a></td>
+           <%} else {%>
+                                                        <td><a href="/admin/unblock/<%- userdetails[i]._id -%>"><button type="button" class="btn btn-success btn-rounded btn-fw " onclick="show()"><span> unblock </span></button></a></td>
+            <% } %>
+
+
+          
+                <!-- <td class="text-danger"> 28.76% <i class="ti-arrow-down"></i></td>
+                <td class="text-danger"> 28.76% <i class="ti-arrow-down"></i></td> -->
+              </tr>
+              <% } %>
+              <!-- <tr>
+                <td>Messsy</td>
+                <td>Flash</td>
+                <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
+                <td><label class="badge badge-warning">In progress</label></td>
+              </tr>
+              <tr>
+                <td>John</td>
+                <td>Premier</td>
+                <td class="text-danger"> 35.00% <i class="ti-arrow-down"></i></td>
+                <td><label class="badge badge-info">Fixed</label></td>
+              </tr>
+              <tr>
+                <td>Peter</td>
+                <td>After effects</td>
+                <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
+                <td><label class="badge badge-success">Completed</label></td>
+              </tr>
+              <tr>
+                <td>Dave</td>
+                <td>53275535</td>
+                <td class="text-success"> 98.05% <i class="ti-arrow-up"></i></td>
+                <td><label class="badge badge-warning">In progress</label></td>
+              </tr>-->
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script>
+    function show(){
+      alert("button clicked succesfully")
+    }
+  </script> -->
+  <%- include('partials/adminFooter.ejs') -%>

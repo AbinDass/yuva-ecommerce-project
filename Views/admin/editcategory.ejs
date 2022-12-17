@@ -1,0 +1,77 @@
+<%- include('partials/adminHeader.ejs') -%>
+<!-- <form style="padding-left: 30%; padding-top: 10%" > -->
+    <div style="padding-left: 30%; padding-top: 10%">
+    <div class="col-12 grid-margin stretch-card" style="width: 100% !important">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit categorys</h4>
+                <p class="card-description">Add the product category here</p>
+               
+                <form action="/admin/editedcategory/<%- categorydata[0]._id %>" method="post" enctype="multipart/form-data">
+                <ul>
+                    <li style="list-style: none;"> 
+                        <label for="">CategoryName:</label>
+                        <input type="text" name="categoryname" placeholder="cataegory name" value="<%- categorydata[0].categoryname %>">
+                      </li>
+                      <br><br>
+
+                    <li style="list-style: none;"> 
+                      <label for="">current image:</label>
+                      <img placeholder="current image" src="\admin\category\<%- categorydata[0].image[0].filename %>"   style="width: 100px; height: 100px;">
+                    </li><br><br>
+
+
+                  
+                    <li style="list-style: none;">
+                        <label for="">CategoryImage</label>
+                        <input
+                                class="form-control file-upload-info"
+                                placeholder="Upload Image"
+                                type="file"
+                                accept="image/jpeg,image/gif,image/png,image/x-eps"
+                                id="editedimage"
+                                name="image"
+                                multiple
+                            />
+                    </li>
+                    <br><br>
+
+                    <li style="list-style: none;"> 
+                        <label for="">Description</label>
+                        <input type="text" name="description" placeholder="cataegory description" value=" <%- categorydata[0].description %> ">
+                    </li>
+                </ul>
+
+                <button type="submit" class="btn btn-success">submit</button>
+                <a href="/admin/listcategory"><button type="button" class="btn btn-danger">cancel</button></a>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </form> -->
+
+<!-- 
+<script>
+function  sweet(){
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 20000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'success',
+  title: 'Signed in successfully'
+})
+}
+
+</script> -->
+
+<%- include('partials/adminFooter.ejs') -%>

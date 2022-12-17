@@ -1,0 +1,105 @@
+<%- include('partials/adminHeader.ejs') -%>
+<div class="col-12 grid-margin stretch-card" style="width: 60%; margin-left: 10%">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Edit Products</h4>
+            <p class="card-description">Edit your Products here</p>
+            <form class="forms-sample" action="/admin/updateproduct/<%-product[0]._id%>" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="">title</label>
+                    <input type="text" class="form-control" placeholder="Name" name="title" value="<%- product[0].title %>"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="">brand</label>
+                    <input type="text" class="form-control" placeholder="BrandName" name="brand" value="<%- product[0].brand -%>"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="">price</label>
+                    <input type="number" class="form-control" placeholder="Price" name="price" value="<%- product[0].price -%>"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="">stock</label>
+                    <input type="number" class="form-control" placeholder="availability" name="stock" value="<%- product[0].stock %>"/>
+                </div>
+
+                <div class="form-group">
+                  <label for="">category</label>
+                  <select class="form-control" name="category">
+                      <% for(let i=0;i<category.length;i++) {%>
+                        <option><%- category[i].categoryname %></option>
+                        <!-- <option>category2</option> -->
+                        <%}%>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Image 1</label>
+                    <input type="file" name="image" class="file-upload-default" multiple />
+                    <div class="input-group col-xs-12">
+                        <input
+                            class="form-control file-upload-info"
+                            placeholder="Upload Image"
+                            type="file"
+                            accept="image/jpeg,image/gif,image/png,image/x-eps"
+                            id="image"
+                            name="image"
+                            multiple
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image 2</label>
+                    <input type="file" name="image" class="file-upload-default" multiple />
+                    <div class="input-group col-xs-12">
+                        <input
+                            class="form-control file-upload-info"
+                            placeholder="Upload Image"
+                            type="file"
+                            accept="image/jpeg,image/gif,image/png,image/x-eps"
+                            id="image"
+                            name="image"
+                            multiple
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image 3</label>
+                    <input type="file" name="image" class="file-upload-default" multiple />
+                    <div class="input-group col-xs-12">
+                        <input
+                            class="form-control file-upload-info"
+                            placeholder="Upload Image"
+                            type="file"
+                            accept="image/jpeg,image/gif,image/png,image/x-eps"
+                            id="image"
+                            name="image"
+                            multiple
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">size</label>
+                    <textarea class="form-control"  name="size" ><%- product[0].size %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="">description</label>
+                    <textarea class="form-control"  name="description"><%- product[0].description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="">discount</label>
+                    <input type="text" class="form-control" placeholder="Price" name="discount" value="<%- product[0].discount %>"/>
+                </div>
+
+                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/adminFooter.ejs') -%>

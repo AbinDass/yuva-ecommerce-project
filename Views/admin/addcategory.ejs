@@ -1,0 +1,79 @@
+<%- include('partials/adminHeader.ejs') -%>
+<!-- <form style="padding-left: 30%; padding-top: 10%" > -->
+    <div style="padding-left: 30%; padding-top: 10%">
+    <div class="col-12 grid-margin stretch-card" style="width: 80% !important">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add categorys</h4>
+                <p class="card-description">Add the product category here</p>
+                <form class="forms-sample" action="/admin/addcategory" method="post"  enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="">CategoryName</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="exampleInputName1"
+                            placeholder="CategoryName"
+                            name="categoryname"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image upload</label>
+                        <input type="file" name="image" class="file-upload-default"  multiple/>
+                        <div class="input-group col-xs-12">
+                            <input
+                                class="form-control file-upload-info"
+                                placeholder="Upload Image"
+                                type="file"
+                                accept="image/jpeg,image/gif,image/png,image/x-eps"
+                                id="image"
+                                name="image"
+                                multiple
+                            />
+                            <!-- <span class="input-group-append"> -->
+                                <!-- <button class="file-upload-browse btn btn-primary" type="button">Upload</button> -->
+                            <!-- </span> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea
+                            class="form-control"
+                            id="exampleTextarea1"
+                            rows="4"
+                            name="description"> Description</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2" onclick="sweet()">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </form> -->
+
+<script>
+function  sweet(){
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 20000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'success',
+  title: 'Signed in successfully'
+})
+}
+
+</script>
+
+<%- include('partials/adminFooter.ejs') -%>
