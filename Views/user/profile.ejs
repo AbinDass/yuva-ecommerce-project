@@ -1,0 +1,159 @@
+<%- include('partials/userheader.ejs') -%>
+<div><br>
+        <section style="background-color: #eee;">
+        <div class="container py-5">
+          
+      
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3"><%- user.fullname %>  </h5>
+                  <h4>Email  : <%- user.email %></h4>
+                  <h4>Phone :<%- user.mobilenumber %></h4>
+                  <div class="d-flex justify-content-center mb-2">
+                    <button type="button" class="btn btn-success"  data-toggle="modal" data-target=".addprofile">ADD ADDRESS</button>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <!-- colapse -->
+            <div class="col-md-6">
+                <div class="card mb-4 mb-md-0" style="width: 50vw;">
+                    <div class="card-body">
+                                            
+                        <p>
+                                <a data-toggle="collapse" href="#collapseExample" >
+                                  <button class="btn btn-info" style="width: 80%;"> Show Address </button>
+                                </a>
+                                <div style="height: 20px;">
+                                </div>
+                                
+                            </p>
+
+                            <% for( let i = 0; i < findaddress.length; i++ ) { %>  
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <ul style="list-style-type: none;">
+                                        <h4><li><%- findaddress[i].name -%> </li></h4><br>
+                                        <li><%- findaddress[i].phone -%> </li>
+                                        <li><%- findaddress[i].state -%> </li>
+                                        <li><%- findaddress[i].city -%> </li>
+                                        <li><%- findaddress[i].address -%> </li>
+                                        <li><%- findaddress[i].pin -%> </li>
+
+                                        <button class="btn btn-primary" > EDIT</button>
+                                        <button class="btn btn-danger" onclick="deleteaddress('<%- findaddress[i]._id %>')"> DELETE</button>
+                                    </ul>
+                                </div>
+                            </div>
+                            <% } %>
+                            
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <!-- modal -->
+<div class="modal fade addprofile" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+      <form action="/addprofile" method="post">
+        <div class="col-lg-8" style="margin-left: 15%;">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" name="name">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="number" name="phone">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">State</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" name="state">
+                  </div>
+                </div>
+                <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">City</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" name="city">
+                </div>
+              </div>
+              <hr>
+              
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <textarea name="address" id="" cols="30" rows="5"></textarea>
+                </div>
+              </div>
+  
+              <hr>
+              <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Pin</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" name="pin">
+                  </div>
+                </div>
+                <hr>
+  
+                <button type="submit" class="btn btn-success">Add Address</button>
+            </div>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- modal ends -->
+      </section>
+
+
+      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+async function deleteaddress(id){
+       
+       let add = await axios.delete(`/deleteaddress/${id}`)
+        console.log(add)
+        alert('are u sure u want to delete')
+        location.reload()
+    }
+  </script>
+
+
+<%- include('partials/userfooter.ejs') -%>

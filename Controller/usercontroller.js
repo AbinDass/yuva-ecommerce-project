@@ -3,21 +3,27 @@ const db = require("../config/mongooseConnection");
 const usersignupdb = require("../Model/userschema/usersuignupmodel");
 const productdb = require("../Model/adminscema/product");
 const cartdb = require("../Model/userschema/Cart");
-const bcrypt = require("bcrypt");
+const addressdb = require("../Model/userschema/address");
 // const users = require('../Model/userschema/usersuignupmodel')
+const bcrypt = require("bcrypt");
 const { sendotp, verifyotp } = require("../utilities/otp");
 const { default: mongoose } = require("mongoose");
-const product = require("../Model/adminscema/product");
 const { findOneAndUpdate, count } = require("../Model/userschema/usersuignupmodel");
+const address = require("../Model/userschema/address");
 
 const userhomeview = (req, res) => {
-    console.log(req.session.user);
+    user_profile = req.session.user_detail;
+
     // let user = req.session.user
-    res.render("user/userhome");
+    res.render("user/userhome", { user_profile });
 };
 
 const userLoginview = (req, res) => {
-    res.render("user/login");
+    if (req.session.user_detail) {
+        res.redirect("/");
+    } else {
+        res.render("user/login");
+    }
 };
 let owner;
 const userpostlogin = async (req, res) => {
@@ -41,9 +47,7 @@ const userpostlogin = async (req, res) => {
                 // else{
                 //     res.send('acces denied')
                 // }
-                console.log(
-                    "-----------ABINDASgghfjgsdhfglugfhrgfrtfyuegferuy8heuihggfggsdghyhf---------------------------"
-                );
+
                 res.redirect("/");
             } else {
                 console.log("data false going to redirect user login");
@@ -67,7 +71,6 @@ const userproductdetailview = async (req, res) => {
     const ID = req.params.id;
     user = req.session.logedin;
     const product = await productdb.find({ _id: ID });
-    // console.log(product);
     res.render("user/product_details", { product });
 };
 
@@ -83,7 +86,6 @@ const usercontactview = (req, res) => {
 const usersignupview = (req, res) => {
     res.render("user/signup");
 };
-// post user signup page-------------------------------
 
 const postsignupview = async (req, res) => {
     console.log("signuppost is working");
@@ -93,7 +95,6 @@ const postsignupview = async (req, res) => {
     const hashedconfirmpassword = await bcrypt.hash(req.body.confirmpassword, 10);
     const mobilenum = req.body.mobilenumber;
 
-    // taking here user iunder session
     req.session.signup = req.body;
 
     console.log(req.session.signup);
@@ -144,7 +145,6 @@ const postotp = async (req, res) => {
 
                 userdata.save().then((response) => {
                     req.session.user_detail = response;
-                    // owner = response
                 });
 
                 req.session.otpverifyed = true;
@@ -167,11 +167,8 @@ const getcart = async (req, res) => {
     try {
         const userid = req.session.user_detail._id;
         const cartitems = await cartdb.findOne({ owner: mongoose.Types.ObjectId(userid) }).populate("items.product");
+        console.log("this is the cart", cartitems);
         res.render("user/cart", { cartitems, owner: req.session.user_detail });
-        console.log("---------------", cartitems);
-        console.log(cartitems.quantity);
-        // console.log(req.session.user_detail);
-        // console.log(userid);
     } catch (err) {
         console.log(err);
     }
@@ -179,15 +176,11 @@ const getcart = async (req, res) => {
 
 const addcart = async (req, res) => {
     const ID = req.params.id;
-    console.log("id is", ID);
-    console.log(req.session.user_detail);
     const userid = req.session.user_detail._id;
-    //    console.log(userid);
 
     const product = await productdb.findOne({ _id: ID });
     const user = await cartdb.findOne({ owner: userid });
 
-    console.log(user);
     console.log(product);
 
     if (product.stock < 1) {
@@ -202,55 +195,47 @@ const addcart = async (req, res) => {
                 items: [{ product: ID, totalPrice: product.price }],
                 cartTotal: product.price,
             });
-            await addToCart.save()
-                console.log("added successfully");
-                // res.redirect("/productdetail/" + ID);
-            
+            await addToCart.save();
+            console.log("added successfully");
         } else {
             const productExist = await cartdb.findOne({
                 owner: userid,
                 "items.product": ID,
             });
 
-            // console.log('you have the cart')
             if (productExist !== null) {
-                console.log(productExist);
                 console.log("product exist");
+                console.log(req.body);
+                console.log(product.quantity);
+                console.log(product);
 
-                await cartdb
-                    .findOneAndUpdate(
-                        {
-                            owner: userid,
-                            "items.product": ID,
+                await cartdb.findOneAndUpdate(
+                    {
+                        owner: userid,
+                        "items.product": ID,
+                    },
+                    {
+                        $inc: {
+                            "items.$.quantity": 1,
+                            "items.$.totalPrice": product.price,
+                            cartTotal: product.price,
                         },
-                        {
-                            $inc: {
-                                "items.$.quantity": 1,
-                                "items.$.totalPrice": product.price,
-                                cartTotal: product.price,
-                            },
-                        }
-                    ) 
-                    // .then(() => {
-                    //     res.redirect("/productdetails/" + ID);
-                    // });
+                    }
+                );
             } else {
-                console.log('hiiiiiiiiiiiiiiiiii')
-
                 console.log(req.session.user_detail._id);
                 console.log(userid);
                 const newproductAdd = await cartdb.findOneAndUpdate(
-                    {owner:userid},
+                    { owner: userid },
                     {
-                        $push: {items: { product: ID,totalPrice: product.price,}},
+                        $push: { items: { product: ID, totalPrice: product.price } },
                         $inc: { cartTotal: product.price },
                     }
                 );
                 console.log(newproductAdd);
-                console.log('hope');
+                console.log("hope");
                 newproductAdd.save().then(() => {
                     console.log("newproduct added successfully");
-                    // res.redirect("/productdetails/" + ID);
                 });
             }
         }
@@ -258,49 +243,106 @@ const addcart = async (req, res) => {
 };
 
 const quantityChange = async (req, res) => {
-
-    console.log(".....................................................................................")
     console.log(req.body);
-    // const { cartid, productid, count } = req.query;
     console.log(req.body.cartID);
     console.log(req.body.productID);
-    // const {cartid,productid,count} = req.body
 
-
-    const product = await productdb.findOne({_id:req.body.productID});
-    console.log(product,"...............///////////////////////////////////////////////////////////")
-    // cartTotal = product.price;
+    const products = await productdb.findOne({ _id: req.body.productID });
+    cartTotal = products.price;
 
     console.log("change the quuantity");
-    // if (count == 1) {
-    //     let product_price = product.price;
-    // } else {
-    //     let product_price = -product.price;
-    // }
 
-if(req.body.count == 1)var product_price = product.price;
+    if (req.body.Count == 1) var product_price = products.price;
+    else var product_price = -products.price;
 
-else
-    var product_price = -product.price;
+    await cartdb.findOneAndUpdate(
+        {
+            _id: req.body.cartID,
+            "items.product": req.body.productID,
+        },
+        {
+            $inc: {
+                "items.$.quantity": req.body.Count,
+                "items.$.totalPrice": product_price,
+                cartTotal: product_price,
+                 },
+        }
+    );
+    res.status(200).json({ message: "qty" });
+};
 
-    
-    await cartdb
-        .findOneAndUpdate(
-            {
-                _id: req.body.cartID,
-                "items.product": req.body.productID,
-            },
-            {
-                $inc: {
-                    "items.$.quantity":req.body.count ,
-                    "items.$.totalprice": product_price,
-                    cartTotal: product_price,
-                },
-            }
-        )
-        .then((res) => {
-            res.json();
+const profile = async (req, res) => {
+    user = req.session.user_detail;
+    const userid = req.session.user_detail._id;
+    // const finduser = await usersignupdb.findOne({_id:userid})
+    const useraddress = await addressdb.findOne({ user: userid }).populate("user");
+    // const findaddress
+    if (useraddress) {
+        findaddress = useraddress.address;
+    } else {
+        res.send("something wrong");
+    }
+    res.render("user/profile", { useraddress, findaddress, user });
+};
+
+const addprofile = async (req, res) => {
+    // const address = req.body
+    console.log("prisdgfgdffffffffffffg", req.body);
+    const userid = req.session.user_detail._id;
+    const addressexist = await addressdb.findOne({ user: userid });
+    console.log("hiiiiiiiiiiiiii this is for checkout");
+    if (addressexist) {
+        await addressdb.findOneAndUpdate({ userid }, { $push: { address: [req.body] } });
+        res.redirect("/profile");
+    } else {
+        const useraddress = await addressdb({
+            user: userid,
+            address: [req.body],
         });
+
+        console.log(useraddress);
+        useraddress.save().then(() => {
+            res.redirect("/profile");
+        });
+    }
+};
+
+const deleteaddress = async (req, res) => {
+    const addressid = req.params.id;
+    userid = req.session.user_detail._id;
+    console.log(userid, "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    console.log("hiiiiiiiiiiiiiiiiiiii", addressid);
+
+    await addressdb.updateOne({ user: userid }, { $pull: { address: { _id: addressid } } });
+    console.log("hiiiii iam deleting");
+    res.json("delete");
+};
+
+const checkout = async (req, res) => {
+    const userid = req.session.user_detail._id
+    const useraddress = await addressdb.findOne({ user: userid })
+    const cartdetails = await cartdb.findOne({ owner: mongoose.Types.ObjectId(userid) }).populate("items.product");
+let address
+if(useraddress){
+    address = useraddress.address
+}else{
+    res.send('sorry')
+}
+
+    console.log(cartdetails);
+    res.render("user/checkout",{address,cartdetails});
+};
+
+const addresscheckout = async (req, res) => {
+    console.log(req.body);
+    const userid = req.session.user_detail._id;
+    await addressdb.findOneAndUpdate({ userid }, { $push: { address: [req.body] } });
+    res.redirect("/checkout");
+    
+};
+
+const logout = (req, res) => {
+    res.session.distroy();
 };
 module.exports = {
     userLoginview,
@@ -317,4 +359,11 @@ module.exports = {
     getcart,
     addcart,
     quantityChange,
+    profile,
+    addprofile,
+    deleteaddress,
+    checkout,
+    addresscheckout,
+
+    logout,
 };

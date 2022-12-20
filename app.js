@@ -3,17 +3,21 @@ const app = express()
 const path = require('path')
 const logger = require('morgan')
 const session = require('express-session')
+const nocache = require('nocache')
 // const multer = require('multer')
 
 const adminRouter = require('./Routes/adminrouter')
 const userRouter = require("./Routes/userrouter")
 
-//app.use(logger('dev'))
+app.use(logger('dev'))
 app.use(express.urlencoded({extended:true}))
 
 app.use(express.static(path.resolve('./uploaded_images')));
+
 app.use(express.static(path.resolve('./public')));
+
 app.use(express.json());
+app.use(nocache())
 
 // app.use(multer)
 

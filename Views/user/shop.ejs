@@ -196,11 +196,11 @@
             <div class="col-lg-9">
                 <div class="shop__product__option">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="shop__product__option__left">
                                 <p>Showing 1–12 of 126 results</p>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="shop__product__option__right">
                                 <p>Sort by Price:</p>
@@ -217,7 +217,7 @@
                         <% for(let i=0;i<product.length;i++) {%> 
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg">
+                                <div class="product__item__pic set-bg" style="height: 0%;">
                                     <a href="/productdetail/<%- product[i]._id -%> "> <img src="\admin\uploads\<%- product[i].image[0].filename -%>" alt=""></a>                 
                                     <ul class="product__hover">
                                         <li>
@@ -233,14 +233,14 @@
                                 </div>
                                 <div class="product__item__text" style="position: relative;">
                                     <h6><%- product[i].brand %> </h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="" onclick="addToCart('<%- product[i]._id -%>')" class="add-cart">+ Add To Cart</a>
                                     <div class="rating">
                                         <!-- <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i> -->
-                                        <h5><%- product[i].discount %> OFF </h5>
+                                        <h5 class="text-danger"><%- product[i].discount %> OFF </h5>
                                         <h6><%- product[i].description %> </h6>
                                     </div><br>
                                     <h5><%- product[i].price %> INR</h5>
@@ -719,7 +719,22 @@
             </div>
         </div>
     </div> -->
+
+
+    
 </section>
+<script>
+    async function addToCart(id){
+       
+       let cart = await axios.post(`/cart/${id}`)
+        console.log(cart)
+        if(cart.status){
+            alert("success")
+        }else{
+            alert("not")
+        }
+    }
+</script>
 <!-- Shop Section End -->
 
 <!-- Footer Section Begin -->
