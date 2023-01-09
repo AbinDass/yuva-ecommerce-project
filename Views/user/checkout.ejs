@@ -23,7 +23,11 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="#">
+           <% if (error) { %>
+            <div>
+              <h3 style="color: red;"> <%- error %>  </h3>
+            </div>
+           <% } %>
                 <div class="row">
 
                     <div style=" width: 65%;">
@@ -34,23 +38,25 @@
                             <!-- collapse -->
                             
                             <div id="accordion">
+                              <% if (cartdetails!==null || address !== null || address.length!==0) { %>
+                               
                                 <% for( let i = 0; i < address.length; i++ ) { %>
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h5 class="mb-0">
-                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne<%- address[i]._id %> " aria-expanded="true" aria-controls="collapseOne">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#address<%- address[i]._id %> " aria-expanded="true" aria-controls="collapseOne">
                                                     <%- address[i].name %>
                                                 </button>
                                             </h5>
                                         </div>
                                         
-                                        <div id="collapseOne<%- address[i]._id %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div id="address<%- address[i]._id %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                             <div class="card-body">
                                                 <% if (i==0) { %>                        
-                                                    <input type="radio" id="html" name="fav_language" value="HTML" style="margin-left: 10%;" checked>
+                                                    <input type="radio" id="html" name="address" value='<%- i %>' style="margin-left: 10%;" checked>
                                                     <label for="html">SELECT ADDRESS</label><br>
                                                 <% } else { %>
-                                                    <input type="radio" id="html" name="fav_language" value="HTML" style="margin-left: 10%;" >
+                                                    <input type="radio" id="html" name="address" value='<%- i %>' style="margin-left: 10%;" >
                                                     <label for="html">SELECT ADDRESS</label><br>
                                                 <% }  %>
                                                <ul>
@@ -64,9 +70,13 @@
                                         </div>
                                     </div>
                                     <% } %>
+                              <% }else{ %>
+                                <h5>you dont have any addresss</h5>
+                                <% } %>
                                 </div>
                                     
-                                   
+                                   <!-- ------------------------------------------------------ -->
+                                   <!-- -------------------------------------------------------------- -->
 
                               <!-- collapse ends -->
                     </div>
@@ -88,24 +98,40 @@
                             <div class="checkout__input__checkbox">
                                 <label for="payment">
                                     <!-- Check Payment -->C O D
-                                    <input type="checkbox" id="payment">
+                                    <input type="radio" id="payment" name="paymentmod" value="COD" checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div class="checkout__input__checkbox">
-                                <label for="paypal">
-                                    Paypal 
-                                    <input type="checkbox" id="paypal">
+                                <label for="razerpay">
+                                  Razerpay 
+                                    <input type="radio" id="razerpay" name="paymentmod" value="Razerpay" >
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                            <div class="checkout__input__checkbox">
+                              <label for="paypal">
+                                  Paypal 
+                                  <input type="radio" id="paypal" name="paymentmod" value="Paypal" >
+                                  <span class="checkmark"></span>
+                              </label>
+                                
+                          </div>
+                                    <% if (address== null||address.length == 0) { %>
+                                     
+                                      <a><button type="submit" class="site-btn" onclick="placeorder()"  disabled style="visibility: hidden;"> PLACE ORDER </button></a>
+                                    <% }else{ %>
+                                      <a><button type="submit" class="site-btn" onclick="placeorder()"> PLACE ORDER </button></a>
+                                    <% } %> 
+                                    
+                                        <!-- <a><button type="submit" class="site-btn" onclick="noaddress()" > PLACE ORDER </button></a> -->
+                                   
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
+    
 </section>
 
  <!-- modal -->
@@ -183,5 +209,168 @@
   </div>
   </div>
   <!-- modal ends -->
+<!-- Modal -->
+<!-- Modal -->
+<% if (user_profile) { %>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">PROFILE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+      <div class="modal-body">
+        <div class="card-body text-center">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;">
+          <h5 class="my-3"><%- user_profile.fullname %></h5>
+          <p class="text-muted mb-1">E MAIL : <%- user_profile.email %></p>
+          <p class="text-muted mb-4">MOBILE : <%- user_profile.mobilenumber %> </p>
+          <div class="d-flex justify-content-center mb-2">
+              <a href="/profile"><button type="button" class="btn btn-success">View Profile</button></a> 
+              <a href="/order-success" class="mx-5"><button type="button" class="btn btn-success">your orders</button></a>
+               
+          </div>
+      </div>
+      <div class="modal-footer">
+          <a href="/logout"><button type="button" class="btn btn-danger">Log Out</button></a>
+      </div>
+  </div>
+</div>
+</div>
+
+<% }else{%>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">YOU ARE NOT LOGED IN NOW</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <h4 class="text-danger" style="text-align: center;"> Please Login</h4><br>
+      <a href="/login" style="text-align: center;"><button type="button" class="btn btn-success">Log In</button></a>
+  </div>
+</div>
+</div>
+
+<%}%>  
+
+  </div>
+  
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+  async function  placeorder(){
+    
+   const paymod = $("input[type='radio'][name='paymentmod']:checked").val();
+   const address = $("input[type='radio'][name='address']:checked").val();
+    
+    console.log(address);
+    console.log(paymod);
+   const result = await axios({
+    method:"post",
+    url:'/payment',
+    data:{
+      paymod,
+      address
+    }
+   })
+  
+      if(result.data.status){
+      Swal.fire({
+  title: 'oreder placed success fully',
+  showDenyButton: true,
+  confirmButtonText: 'See your order',
+  denyButtonText: `continue shoping`,
+}).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+  if (result.isConfirmed) {   
+    window.location.href = '/order-success'
+  } else if (result.isDenied) {
+    window.location.href = '/shopnow'
+  }
+})
+// location.href = '/order-success'
+
+}else if(result.data.razorpay){
+  razorpayOrderData = result.data.orderdata
+  userorderdata = result.data.userorderdata
+console.log(result.data);
+console.log(razorpayOrderData.amount,razorpayOrderData.id);
+response=result.data
+
+
+
+
+  var options = {
+    "key": "rzp_test_DjtMb1YzbFX1sf", // Enter the Key ID generated from the Dashboard
+    "amount": razorpayOrderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": razorpayOrderData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+        
+        varifypayments(response)
+
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+var rzp1 = new Razorpay(options);
+rzp1.open()
+}else if({pyament:false}){
+location.href = '/error'
+}
+}
+
+async function varifypayments(razorpayOrderData){
+  const varifypayments = await axios({
+    method:"post",
+    url:'/verifypayment',
+    data:{
+      razorpayOrderData,
+      userorderdata,
+    }
+  })
+  alert("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+  console.log(varifypayments.data.status);
+  if(varifypayments.data.status){
+    window.location.href = '/order-success'
+  }else{
+    res.send('not validate')
+  }
+}
+
+
+ function noaddress(){
+  Swal.fire(
+  'no address yet?',
+  'please add any address first',
+  'question'
+)
+ }
+  </script>
 
 <%- include('partials/userfooter.ejs') %>

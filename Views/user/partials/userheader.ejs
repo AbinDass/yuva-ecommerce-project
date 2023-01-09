@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/user/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/user/css/style.css" type="text/css">
 </head>
+    <script src="/user/js/public.js"></script>
 
 <body>
     <!-- Page Preloder -->
@@ -48,10 +49,19 @@
             </div>
         </div>
         <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
-            <a href="#"><img src="/user/img/icon/heart.png" alt=""></a>
-         <a href="#"> <img src="/user/img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+            <a class="btn" data-toggle="modal" data-target="#searchmodal" onclick="publicSearch()"><img src="/user/img/icon/search.png"  style="width: 25px;" alt=""></a>
+            <a href="/wishlist"><img src="/user/img/icon/heart.png"  style="width: 25px;" alt=""></a>
+            <% if (user_profile) { %> 
+                                       
+                <a href="/getcart"><img src="/user/img/icon/cart.png" style="width: 25px; color: #ffffff;" alt=""> <br><span style="width: 30px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light" id="badge" >  </span></a>
+                <% }else{ %>
+                <a href="/getcart"><img src="/user/img/icon/cart.png" style="width: 25px;" alt=""> <br><span style="width: 30px;"></span></a>
+           <% } %> 
+            
+            
+            <!-- bi bi-person-square --> 
+            <a href="" class="btn" data-toggle="modal" data-target="#exampleModalCenter"><img src="/user/img/icon/profile.png" style="width: 35px;" alt=""> <span style="width: 30px;"></span><i class="bi bi-person-square"></i></a>
+            <!-- <div class="price">$0.00</div> -->
         </div>
 
 
@@ -64,43 +74,19 @@
 
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
         </div>
-        <div class="container" style="margin-left: 0%;">
-            <div class="row" style="align-items: center; height: 110px; margin-right: -20%;">
+        <div style="padding-left: 15px; padding-right: 15px;" >
+            <div class="row" style="align-items: center; height: 120px;">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="/user/img/yuvafasions.png" alt="" style="scale: 0.6; margin-top: -22%;"></a>
+                        <a href="/"><div  style="height: 120px;background-image: url('/user/img/yuvafasions.png');background-position: center;background-size: cover;background-repeat: no-repeat;width: 252px;"></div>
+                            </a>
                     </div>
                 </div>
                 <!-- <img src="/user/img/yuvafasions.png" alt="logo" style="vertical-align: left; float: left;"/> -->
                 <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu" style="margin-top: -10%;">
+                    <nav class="header__menu mobile-menu" >
                         <ul>
                             <li class="active"><a href="/">Home</a></li>
                             <li> <a href="/shopnow">ShopNow</a></li>
@@ -122,25 +108,29 @@
                     </nav>
                 </div>
                 <div class="col-lg-3 col-md-3" >
-                    <div class="header__nav__option" style="margin-top: -20%;">
-                        <a href="#" class="search-switch"><img src="/user/img/icon/search.png" style="width: 25px;" alt=""></a>
-                        <a href=""><img src="/user/img/icon/heart.png"  style="width: 25px;" alt=""></a>
-                        <!-- <a href=""><img src="/user/img/icon/cart.png" alt=""> <span>0</span></a> -->
-                        <a href="/getcart"><img src="/user/img/icon/cart.png" style="width: 25px;" alt=""> <span style="width: 30px;"></span></a>
-                        <!-- <div class="price">$0.00</div> -->
-                        <!-- <button class="btn btn-danger"><a href="/logout"> logout </a></button> -->
+                    <div class="header__nav__option d-md-flex align-items-center "  >
+                        <a class="btn" data-toggle="modal" data-target="#searchmodal" onclick="publicSearch()"><img src="/user/img/icon/search.png"  style="width: 25px;" alt=""></a>
+                        <a href="/wishlist"><img src="/user/img/icon/heart.png"  style="width: 25px;" alt=""></a>
+                        <% if (user_profile) { %> 
+                                                   
+                            <a href="/getcart"><img src="/user/img/icon/cart.png" style="width: 25px; color: #ffffff;" alt=""> <br><span style="width: 30px;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light" id="badge" >  </span></a>
+                            <% }else{ %>
+                            <a href="/getcart"><img src="/user/img/icon/cart.png" style="width: 25px;" alt=""> <br><span style="width: 30px;"></span></a>
+                       <% } %> 
                         
                         
-                        <!-- bi bi-person-square -->
+                        <!-- bi bi-person-square --> 
                         <a href="" class="btn" data-toggle="modal" data-target="#exampleModalCenter"><img src="/user/img/icon/profile.png" style="width: 35px;" alt=""> <span style="width: 30px;"></span><i class="bi bi-person-square"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+            <div class="canvas__open"><i class="fa fa-bars">
+                
+            </i></div>
         </div>
         
           
-    </header>
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+    </header><br>
+    
 
     <!-- Header Section End -->

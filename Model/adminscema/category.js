@@ -16,6 +16,9 @@ const categorySchema = new mongoose.Schema(
             type:String,
             requierd:true,
             max:100
+        },
+        type:{
+            type:String,
         }
     },
     { timestamps: true }

@@ -10,22 +10,30 @@
         <!-- Main Style Css -->
         <link rel="stylesheet" href="/user/signup/css/style.css" />
     </head>
-    <body class="form-v6" style="scale: 0.6;  overflow: hidden;">
-        <div class="page-content" style="margin-top: -4%;">
-            <div class="form-v6-content">
+    <body class="form-v6">
+        <div class="page-content" style="height: 100vh; display: flex; align-items: center;">
+            <div class="form-v6-content" style="scale: 0.8; margin: 0px;">
                 <div class="form-left">
                     <h1 style="color: black; margin-top: 140px; margin-left: 40px;">KEEP TRAVEL WITH TREND</STYle></h1>
-                    <img src="/user/signup/images/malefasion.jpg" alt="form"  style="margin-top: 20px !important;"/>
+                    <img src="/user/signup/images/malefasion.jpg" alt="form"  style="margin-top: 50px !important;"/>
                 </div>
                 <div id="error"></div>
-                <form class="form-detail" action="/signup" method="post" id="form">
+
+
+
+                <form class="form-detail" action="/signup" method="post" id="signupForm">
                     <div class="form-top">
                         <img src="/user/signup/images/yuvafasions.png" alt="logo" />
                     </div>
                     <h2>Sign Up</h2>
+
                     <div class="form-row">
                         <input type="text" id="fullname" name="fullname" class="input-text" placeholder="Your Name" required  style="width: 80%;"/>
+                        <p id="usercheck" style="color: red;">
+                            **Username is missing
+                        </p>
                     </div>
+
                     <div class="form-row">
                         <input
                             type="text"
@@ -37,14 +45,23 @@
                             pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"
                             style="width: 80%;"
                         />
+                        <small id="emailvalid" class="form-text
+                            text-muted invalid-feedback">
+                        Your email must be a valid email
+                    </small>
                     </div>
+
                     <div class="form-row">
                         <input type="number" id="mobilenumber" name="mobilenumber" class="input-text" placeholder="mobile number" required style="width: 80%;"/>
                     </div>
 
                     <div class="form-row">
                         <input type="password" id="password" name="password" class="input-text" placeholder="Password" required style="width: 80%;"/>
+                        <p id="passcheck" style="color: red;">
+                            **Please Fill the password
+                        </p>
                     </div>
+
                     <div class="form-row">
                         <input
                             type="password"
@@ -55,48 +72,222 @@
                             required
                             style="width: 80%;"
                         />
+                        <p id="conpasscheck" style="color: red;">
+                            **Password didn't match
+                        </p>
                     </div>
+
                     <div class="form-row-last">
-                        <input type="submit" class="register" />
+                        <input type="submit" class="register" value="register" id="submitbtn"/>
                     </div>
+
                 </form>
+
+
+
             </div>
         </div>
     </body>
     <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
 
 <script>
-    const form = document.getElementById('form')
-    const fullname = document.getElementById('fullname')
-    const email = document.getElementById('email')
-    const mobile = document.getElementById('mobilenumber')
-    const password = document.getElementById('password')
-    const confirmpassword = document.getElementById('confirmpassword')
-    const errorElement = document.getElementById('error')
+$(document).ready(function () {
+// Validate Username
+$("#usercheck").hide();
+let usernameError = true;
+$("#fullname").keyup(function () {
+validateUsername();
+});
 
-    form.addEventListener('submit', (element)=>{
+function validateUsername() {
+let usernameValue = $("#fullname").val();
+if (usernameValue.length == "") {
+$("#usercheck").show();
+usernameError = false;
+return false;
+} else if (usernameValue.length < 3 || usernameValue.length > 10) {
+$("#usercheck").show();
+$("#usercheck").html("**length of username must be between 3 and 10");
+usernameError = false;
+return false;
+} else {
+$("#usercheck").hide();
+}
+}
 
-        let message = []
+//   Validate Email
+const email = document.getElementById("email");
+email.addEventListener("blur", () => {
+let regex = /^([\-\.0-9a-zA-Z]+)@([\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
+let s = email.value;
+if (regex.test(s)) {
+email.classList.remove("is-invalid");
+emailError = true;
+} else {
+email.classList.add("is-invalid");
+emailError = false;
+}
+});
 
-        if(fullname.value === ''||fullname.value === null){
-            message.push('name is required')
-        }
-        if (email === ''||email !== email){
-            message.push('this is not an email')
-        }
-        if(mobile.value.length !== 10||mobile.value === null){
-            message.push('enter mobile number')
-        }
-        if(password.value.length<=8||password.value === null){
-            message.push('enter proper password')
-        }
-        if(confirmpassword.value !== password.value||confirmpassword.value === null){
-            message.push('enter same password')
-        }
-        if(message.length>0){
-            element.preventDefault()
-            errorElement.innerText.message.join(', ')
-        }
-    })
+// Validate Password
+$("#passcheck").hide();
+let passwordError = true;
+$("#password").keyup(function () {
+validatePassword();
+});
+async function validatePassword () {
+let passwordValue = $("#password").val();
+if (passwordValue.length == "") {
+$("#passcheck").show();
+passwordError = false;
+return false;
+}
+if (passwordValue.length < 3 || passwordValue.length > 10) {
+$("#passcheck").show();
+$("#passcheck").html(
+"**length of your password must be between 3 and 10"
+);
+$("#passcheck").css("color", "red");
+passwordError = false;
+return false;
+} 
+let res= await containsSpecialChars(passwordValue)
+console.log(res);
+if(res===false){
+$("#passcheck").show();
+$("#passcheck").html(
+"Password must contain special characters"
+);
+$("#passcheck").css("color", "red");
+passwordError = false;
+return false;
+}
+else {
+$("#passcheck").hide();
+}
+}
+function containsSpecialChars(str) {
+console.log('ivde vannu');
+const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+return specialChars.test(str);
+}
+// Validate Confirm Password
+$("#conpasscheck").hide();
+let confirmPasswordError = true;
+$("#confirmpassword").keyup(function () {
+validateConfirmPassword();
+});
+function validateConfirmPassword() {
+let confirmPasswordValue = $("#confirmpassword").val();
+let passwordValue = $("#password").val();
+if (passwordValue != confirmPasswordValue) {
+$("#conpasscheck").show();
+$("#conpasscheck").html("**Password didn't Match");
+$("#conpasscheck").css("color", "red");
+confirmPasswordError = false;
+return false;
+} else {
+$("#conpasscheck").hide();
+}
+}
+
+// Submit button
+$("#submitbtn").click(function () {
+validateUsername();
+validatePassword();
+validateConfirmPassword();
+validateEmail();
+if (
+usernameError == true &&
+passwordError == true &&
+confirmPasswordError == true &&
+emailError == true
+) {
+$('#signupForm').submit(function (evt) {
+evt.preventDefault();
+window.history.back();
+});
+return true;
+} else {  
+return false;
+}
+});
+});
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- //
+
+<div class="col-lg-6">
+    <div class="login_form_inner">
+        <h3>Register</h3>
+        <form class="row login_form" action="/signup" method="post" id="signupForm">
+            <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Fullname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Fullname'" required>
+                <p id="usercheck" style="color: red;">
+                    **Username is missing
+                </p>
+            </div>
+            <div class="col-md-12 form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" required>
+                <small id="emailvalid" class="form-text
+                text-muted invalid-feedback">
+                        Your email must be a valid email
+                    </small>
+            </div>
+            <div class="col-md-12 form-group">
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Mobile number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mobile number'" required>
+            </div>
+            <div class="col-md-12 form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required>
+                <p id="passcheck" style="color: red;">
+                    **Please Fill the password
+                </p>
+            </div>
+            <div class="col-md-12 form-group">
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'" required>
+                <p id="conpasscheck" style="color: red;">
+                    **Password didn't match
+                </p>
+            </div>
+            
+            <div class="col-md-12 form-group">
+                <button type="submit" id="submitbtn" value="submit" class="primary-btn">Create an account</button>
+                
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+// -->
+
+
+

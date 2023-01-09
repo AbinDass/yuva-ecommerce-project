@@ -1,0 +1,84 @@
+<%- include('partials/Header.ejs') -%>
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Order info</h4>
+              <p class="card-description">
+                <!-- Add class <code>.table</code> -->
+              </p>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                  
+                  </thead>
+                  <tbody>
+                    <tr>
+                      Orderid : <%- orderdetail._id %>   <br>        
+                      Order date : <%- orderdetail.orderdate.toLocaleString() %> <br>
+                      Status : <%- orderdetail.orderstatus %> <br>
+                      Total Amount : <%- orderdetail.ordertotal %> <br>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">User Info</h4>
+              <p class="card-description">
+                <!-- Add class <code>.table-hover</code> -->
+              </p>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                   
+                  </thead>
+                  <tbody>
+                   
+                    Name : <%- userdata.owner.fullname %> <br>
+                    Phone : <%- userdata.owner.mobilenumber %> <br>
+                    email : <%- userdata.owner.email %> <br>
+                    activated : <%- userdata.owner.createdAt.toLocaleString() %> <br>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Product Info</h4>
+              <p class="card-description">
+                <!-- Add class <code>.table-striped</code> -->
+              </p>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    
+                  </thead>
+                  <tbody>
+                    
+                    
+                    <% orderdetail.orderitems.forEach(element => { %>
+                      <h5>product title  :  <%- element.product.title %> </h5><br>
+                      <h5>product price : <%- element.product.price %> INR</h5><br>
+                      <h5>product discount : <%- element.product.discount %> INR</h5><br>
+                      <h5>product category : <%- element.product.category %> </h5>
+              <% }) %>
+                        
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+<%- include('partials/Footer.ejs') -%>

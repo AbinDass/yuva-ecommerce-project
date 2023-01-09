@@ -1,0 +1,93 @@
+<%- include('partials/Header.ejs') -%>
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        user id
+      </th>
+      <th>
+        order id
+      </th>
+      
+      <th>
+        total
+      </th>
+      <th>
+        order Status
+      </th>
+      <th>
+        payment status
+        </th>
+        <th>
+          date
+        </th>
+        <th>
+         View
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for( let i = 0; i < order.length; i++ ) { %>
+                
+      <tr style="height: 30px;">
+        <td class="py-1">
+          User id:  <%- order[i].owner %>
+      </td>
+      <td>
+           <%- order[i]._id %> 
+        </td>
+        <td>
+          <%- order[i].ordertotal %> 
+        </td>
+        <td>
+        <% if (order[i].orderstatus != 'canceled' && order[i].orderstatus != 'Delivered') { %>   
+            <select name="track" id="track<%= i %>">
+              <option value="<%= order[i].orderstatus %>" selected>
+                <%= order[i].orderstatus %> 
+              </option>
+              <option value="canceled">canceled</option>
+              <option value="order confirmed">confirmed</option>
+              <option value="shiped">shiped</option>
+              <option value="out of delivery">out of delivery</option> 
+              <option value="Delivered">delivered</option>
+            </select>
+            <button type="button" class="btn btn-primary" onclick="updateOrder('<%= order[i]._id %>' , '<%= i %>')">Update</button>        
+            <% }else if(order[i].orderstatus == 'Delivered'){ %>
+              <%- order[i].orderstatus %> 
+              <% }else{%>
+                <%- order[i].orderstatus %>
+                <% } %>        
+            </td>
+        <td>
+          <%- order[i].paymentstatus %> 
+        </td>
+        <td>
+           <%- order[i].orderdate.toLocaleString() %> 
+          </td>
+          <td>
+           <a href="/admin/orderdetail/<%- order[i]._id %> "><button class="btn btn-danger">View</button></a>
+          </td>
+      </tr>
+      
+  <% } %>
+  </tbody>
+</table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+<script>
+  function updateOrder(orderid , index){
+    const value = $(`#track${index}`).find(":selected").val()
+    alert('you want to save changes?')     
+   
+    updateorder =  axios.post('/admin/orderstatus',{orderid:orderid, status:value})
+    
+      alert('order updated')
+  
+    }  
+  
+</script>
+
+
+<%- include('partials/Footer.ejs') -%>

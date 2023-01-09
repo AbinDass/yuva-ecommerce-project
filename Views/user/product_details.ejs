@@ -7,8 +7,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product__details__breadcrumb">
-                        <a href="./index.html">Home</a>
-                        <a href="./shop.html">Shop</a>
+                        <a href="/">Home</a>
+                        <a >Shop</a>
                         <span>Product Details</span>
                     </div>
                 </div>
@@ -47,24 +47,7 @@
                         </div>
                     
 
-                        <!-- <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="\admin\uploads\" alt="" />
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tabs-3" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="\admin\uploads\" alt="" />
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tabs-4" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="/user/img/shop-details/product-big-4.png" alt="" />
-                                <a
-                                    href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
-                                    class="video-popup"
-                                    ><i class="fa fa-play"></i
-                                ></a> -->
+                       
                             </div>
                         </div> 
                     </div>
@@ -79,67 +62,18 @@
                     <div class="product__details__text">
                         <h4><%- product[i].title -%></h4>
                         <h3><%- product[i].brand -%></h3>
-                        <!-- <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                            <span> - 5 Reviews</span>
-                        </div> -->
+                        
                         <h3><%- product[i].price -%> INR<span>70.00</span> <%- product[i].discount -%> OFF</h3>
                         <p>
                             Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable cuff
                             tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening with placket.
                         </p>
-                        <!-- <div class="product__details__option">
-                            <div class="product__details__option__size">
-                                <span>Size:</span>
-                                <label for="xxl"
-                                    >xxl
-                                    <input type="radio" id="xxl" />
-                                </label>
-                                <label class="active" for="xl"
-                                    >xl
-                                    <input type="radio" id="xl" />
-                                </label>
-                                <label for="l"
-                                    >l
-                                    <input name="sizel" value="L" type="radio" id="l" />
-                                </label>
-                                <label for="sm"
-                                    >s
-                                    <input type="radio" id="sm" />
-                                </label>
-                            </div>
-                            <div class="product__details__option__color">
-                                <span>Color:</span>
-                                <label class="c-1" for="sp-1">
-                                    <input type="radio" id="sp-1" />
-                                </label>
-                                <label class="c-2" for="sp-2">
-                                    <input type="radio" id="sp-2" />
-                                </label>
-                                <label class="c-3" for="sp-3">
-                                    <input type="radio" id="sp-3" />
-                                </label>
-                                <label class="c-4" for="sp-4">
-                                    <input type="radio" id="sp-4" />
-                                </label>
-                                <label class="c-9" for="sp-9">
-                                    <input type="radio" id="sp-9" />
-                                </label>
-                            </div>
-                        </div> -->
                         <div class="product__details__cart__option">
-                            <!-- <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1" />
-                                </div>
-                            </div> -->
+                            <% if (user_profile) { %>
                             <a class="primary-btn" id="btn" onclick="addToCart('<%- product[i]._id -%>')"  style="color: #ffff; cursor: pointer;">add to cart</a>
-                            <!-- <a class="primary-btn"  > <h5 class="text-light"> add to cart </h5></a> -->
-                           
+                            <% }else{ %>
+                                <a href="" data-toggle="modal" data-target="#exampleModalCenter" class="primary-btn" id="btn" style="color: #ffff; cursor: pointer;">+ Add To Cart</a>
+                            <% } %> 
                         </div>
                         <div class="product__details__btns__option">
                             <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
@@ -468,32 +402,78 @@
         </div>
     </div>
 </section>
-<!-- axios stars -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+<!-- Modal -->
+
+<!-- Modal -->
+<% if (user_profile) { %>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">PROFILE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3"><%- user_profile.fullname %></h5>
+            <p class="text-muted mb-1">E MAIL : <%- user_profile.email %></p>
+            <p class="text-muted mb-4">MOBILE : <%- user_profile.mobilenumber %> </p>
+            <div class="d-flex justify-content-center mb-2">
+                <a href="/profile"><button type="button" class="btn btn-success">View Profile</button></a> 
+                <a href="/order-success" class="mx-5"><button type="button" class="btn btn-success">your orders</button></a>
+                 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="/logout"><button type="button" class="btn btn-danger">Log Out</button></a>
+        </div>
+    </div>
+</div>
+</div>
+
+<% }else{%>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">YOU ARE NOT LOGED IN NOW</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <h4 class="text-danger" style="text-align: center;"> Please Login</h4><br>
+        <a href="/login" style="text-align: center;"><button type="button" class="btn btn-success">Log In</button></a>
+    </div>
+</div>
+</div>
+
+  <%}%>  
+
+    
+
+
+ 
+
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<!-- axios ends -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script> -->
 <script>
     function getimage(src){
         document.getElementById('imageid').src = src
     }
-
-    // const addToCart = document.querySelector('#btn')
-    // // const addToCart = $('#btn')
-    // addToCart.onclick = ()=>{
-    //     console.log("gfhfhgfhg");
-
-    // }
 
     async function addToCart(id){
        
        let cart = await axios.post(`/cart/${id}`)
         console.log(cart)
         if(cart.status){
-            alert("success")
+            Swal.fire('item added success fuly')
         }else{
-            alert("not")
+            Swal.fire('oops!')
         }
     }
 

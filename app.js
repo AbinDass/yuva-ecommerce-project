@@ -4,6 +4,7 @@ const path = require('path')
 const logger = require('morgan')
 const session = require('express-session')
 const nocache = require('nocache')
+const flash = require('connect-flash')
 // const multer = require('multer')
 
 const adminRouter = require('./Routes/adminrouter')
@@ -18,6 +19,7 @@ app.use(express.static(path.resolve('./public')));
 
 app.use(express.json());
 app.use(nocache())
+app.use(flash())
 
 // app.use(multer)
 

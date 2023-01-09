@@ -1,0 +1,86 @@
+<%- include('partials/Header') -%> 
+<div style="padding-left: 10%; padding-top: 10%">
+    <div>
+        <a href="/admin/showcoupons" class="btn btn-warning"> show coupons</a>
+    </div><br><br>
+    <div class="col-12 grid-margin stretch-card" style="width: 280%;">
+        <div class="card">
+            <div class="row">
+                <div class="card-body" style="width: 80%;">
+                    <h4 class="card-title">Add Coupon</h4><br>
+                    <div style="padding-left: 60%;">
+            
+                    </div>
+                    <p class="card-description">add discount coupens for products</p>
+
+                    <form class="forms-sample" action="/admin/addcoupen" method="post">
+                        
+                        <div class="form-group">
+                            <label for="">CODE</label>
+                            <input
+                                type="text"
+                                placeholder="code"
+                                name="code"
+                            />
+                        </div>
+    
+                        <div class="form-group">
+                            <label>Available</label>
+                            <!-- <input type="number" name="available"/> -->
+                            <div class="input-group col-xs-12">
+                                <input
+                                    class="form-control file-upload-info"
+                                    placeholder="available"
+                                    type="number"
+                                    id="availability"
+                                    name="available"                                    
+                                />
+                                <!-- <span class="input-group-append"> -->
+                                    <!-- <button class="file-upload-browse btn btn-primary" type="button">Upload</button> -->
+                                <!-- </span> -->
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="exampleTextarea1">status</label>
+                            <input
+                                class="form-control"
+                                id="exampleTextarea1"                               
+                                name="status"/>
+                        </div>
+                        <div>
+                            <label for="amount">amount</label>
+                            <input type="text" id="amount" name="amount">
+                        </div><br>
+                        <div>
+                            <label for="perentage">percentage</label>
+                            <input type="text" id="percentage" name="pecentage">
+                        </div><br>
+                        <div>
+                            <label for="maxredeem">maximum redeem</label>
+                            <input type="number" name="maximumRedeemAmount">
+                        </div><br>
+                        <div>
+                            <label for="minimumcartamount">maximum Cart</label>
+                            <input type="text" name="minimumCartAmount">
+                        </div><br>
+                        <div>
+                            <label for="exp date">exp date</label>
+                            <input type="date" name="expiredate">                           
+                        </div><br>
+                        <button type="submit" class="btn btn-primary me-2" onclick="sweet()"> ADD COUPEN </button>
+                        <button class="btn btn-light">Cancel</button>
+                    </form>
+                </div>
+
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('partials/Footer') -%>

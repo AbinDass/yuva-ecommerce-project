@@ -63,6 +63,56 @@
     
 </section>
 <!-- Contact Section End -->
+<!-- Modal -->
+<!-- Modal -->
+<% if (user_profile) { %>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">PROFILE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3"><%- user_profile.fullname %></h5>
+            <p class="text-muted mb-1">E MAIL : <%- user_profile.email %></p>
+            <p class="text-muted mb-4">MOBILE : <%- user_profile.mobilenumber %> </p>
+            <div class="d-flex justify-content-center mb-2">
+                <a href="/profile"><button type="button" class="btn btn-success">View Profile</button></a> 
+                <a href="/order-success" class="mx-5"><button type="button" class="btn btn-success">your orders</button></a>
+                 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="/logout"><button type="button" class="btn btn-danger">Log Out</button></a>
+        </div>
+    </div>
+</div>
+</div>
 
+<% }else{%>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">YOU ARE NOT LOGED IN NOW</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <h4 class="text-danger" style="text-align: center;"> Please Login</h4><br>
+        <a href="/login" style="text-align: center;"><button type="button" class="btn btn-success">Log In</button></a>
+    </div>
+</div>
+</div>
+
+  <%}%>  
+
+    </div>
 <!-- Footer Section Begin -->
 <%- include('partials/userfooter.ejs') -%>

@@ -27,6 +27,10 @@ const usersignupschema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+        token:{
+            type:String,
+            default:''
+        }
     },
     { timestamps: true }
 );

@@ -1,0 +1,33 @@
+<%- include('partials/Header.ejs') -%>
+<div style="padding: 5%;">
+    <table class="table table-striped table-dark" >
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Coupon Code</th>
+            <th scope="col">Available</th>
+            <th scope="col">status</th>
+            <th scope="col">Redeem Amount</th>
+            <th scope="col">CartAmount</th>
+            <th scope="col"> expiredate</th>
+            <th scope="col"> action</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+            <% for( let i = 0; i < coupons.length; i++ ) { %>         
+                <tr>
+                    <th scope="row"><%= i %> </th>
+                    <td><%= coupons[i].code %> </td>
+                    <td><%= coupons[i].available %></td>
+                    <td><%= coupons[i].status %></td>
+                    <td><%= coupons[i].maximumRedeemAmount %></td>
+                    <td><%= coupons[i].minimumCartAmount %></td>
+                    <td><%= coupons[i].expiredate.toLocaleString(); %></td>
+                    <td><a href="/admin/deletecoupon/<%= coupons[i]._id %>" class="btn btn-danger"> Delete Coupon</a></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <%- include('partials/Footer.ejs') -%>

@@ -9,7 +9,7 @@ mongoosdb
         console.log(`error in db ${error}`);
     });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 app.listen(PORT, (error) => {
     if (error) {
         console.log("error raised , sesrber cant start", error);
