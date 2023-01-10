@@ -149,55 +149,62 @@
 <!-- Product Section End -->
 
 <!-- Categories Section Begin -->
-<section class="categories spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="categories__text">
-                    <h2>
-                       POPULAR<br />
-                        <span><%= productlist[4].title %></span> <br />
-                        OF THE Week
-                    </h2>
+<% if (productlist.length !== 0 && productlist !== 0) { %>
+ 
+    <section class="categories spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="categories__text">
+                        <h2>
+                           POPULAR<br />
+                            <span><%= productlist[4].title %></span> <br />
+                            OF THE Week
+                        </h2>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="categories__hot__deal">
-                    <img src="\admin\uploads\<%- productlist[4].image[0].filename -%>" alt="" />
-                    <div class="hot__deal__sticker">
-                        <span>Sale Of</span>
-                        <h5><%= productlist[4].price %> INR</h5>
+                <div class="col-lg-4">
+                    <div class="categories__hot__deal">
+                        <img src="\admin\uploads\<%- productlist[4].image[0].filename -%>" alt="" />
+                        <div class="hot__deal__sticker">
+                            <span>Sale Of</span>
+                            <h5><%= productlist[4].price %> INR</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1">
+                    <div class="categories__deal__countdown">
+                        <span>Deal Of The Week</span>
+                        <h2><%= productlist[4].description %></h2>
+                        <!-- <div class="categories__deal__countdown__timer" id="countdown">
+                            <div class="cd-item">
+                                <span>3</span>
+                                <p>Days</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>1</span>
+                                <p>Hours</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>50</span>
+                                <p>Minutes</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>18</span>
+                                <p>Seconds</p>
+                            </div>
+                        </div> -->
+                        <a href="/productdetail/<%- productlist[4]._id -%>" class="primary-btn">Shop now</a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 offset-lg-1">
-                <div class="categories__deal__countdown">
-                    <span>Deal Of The Week</span>
-                    <h2><%= productlist[4].description %></h2>
-                    <!-- <div class="categories__deal__countdown__timer" id="countdown">
-                        <div class="cd-item">
-                            <span>3</span>
-                            <p>Days</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>1</span>
-                            <p>Hours</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>50</span>
-                            <p>Minutes</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>18</span>
-                            <p>Seconds</p>
-                        </div>
-                    </div> -->
-                    <a href="/productdetail/<%- productlist[4]._id -%>" class="primary-btn">Shop now</a>
-                </div>
-            </div>
         </div>
+    </section>
+<% }else{ %>
+    <div>
+        
     </div>
-</section>
+    <% } %> 
 <!-- Categories Section End -->
 
 <!-- Instagram Section Begin -->
