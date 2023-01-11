@@ -7,8 +7,8 @@ const nocache = require('nocache')
 const flash = require('connect-flash')
 // const multer = require('multer')
 
-const adminRouter = require('./Routes/adminrouter')
-const userRouter = require("./Routes/userrouter")
+const adminRouter = require('./routes/adminrouter')
+const userRouter = require("./routes/userrouter")
 
 app.use(logger('dev'))
 app.use(express.urlencoded({extended:true}))
