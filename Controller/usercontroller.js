@@ -175,7 +175,7 @@ const userhomeview = async (req, res) => {
     //        }
     //    }
 
-    res.render("user/userhome", { productlist, allcategory, user_profile, banner });
+    res.render("/userhome", { productlist, allcategory, user_profile, banner });
 };
 
 const shopnow = async (req, res) => {
